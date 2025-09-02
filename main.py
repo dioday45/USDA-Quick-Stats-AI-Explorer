@@ -111,7 +111,7 @@ def sanitize_params(d: dict) -> dict:
 
 # ---------- Page ----------
 st.set_page_config(
-    page_title="USDA Quick Stats AI Explorer", page_icon="🌾", layout="wide"
+    page_title="USDA Quick Stats AI Explorer", page_icon="🌾", layout="centered"
 )
 
 # ---------- Header ----------
@@ -133,12 +133,7 @@ st.markdown(
 st.divider()
 # ---------- Sidebar config ----------
 st.sidebar.header("Configuration")
-default_key = st.secrets.get("USDA_API_KEY", "")
-usda_key = st.sidebar.text_input("USDA API Key", value=default_key, type="password")
-st.sidebar.caption(
-    "The API key is read from `st.secrets` by default. You can override it here."
-)
-
+usda_key = st.secrets.get("USDA_API_KEY", "")
 req_timeout = st.sidebar.number_input(
     "Request timeout (seconds)", min_value=5, max_value=120, value=60
 )
@@ -159,7 +154,21 @@ with st.form("query_form", clear_on_submit=False):
         value="What was the final and forecasted Corn yield in Iowa in 2023 ?",
         key="question",
     )
-    submitted = st.form_submit_button("Submit", type="primary")
+    col_submit, col_spacer, col_clear = st.columns([1, 0.001, 1], gap="small")
+    with col_submit:
+        submitted = st.form_submit_button("Submit", type="primary")
+    with col_clear:
+        cleared = st.form_submit_button("Clear")
+
+# Handle Clear action
+if "cleared" in locals() and cleared:
+    # Reset user input and results
+    st.session_state.pop("question", None)
+    st.session_state.pop("last_params", None)
+    st.session_state.pop("last_df", None)
+    st.session_state.pop("last_explanation", None)
+    st.session_state.pop("last_latency_ms", None)
+    st.rerun()
 
 if submitted:
     # Key checks
@@ -183,7 +192,7 @@ if submitted:
         st.stop()
 
     # Make status box expanded and start overall timer
-    status_box = st.status("Starting...", expanded=True)
+    status_box = st.status("Starting...", expanded=False)
     t_overall = time.perf_counter()
 
     # Generate params with the agent (status + progress)
@@ -250,7 +259,9 @@ if submitted:
         )
         total_ms = int((time.perf_counter() - t_overall) * 1000)
         status_box.update(
-            label=f"Process complete — total time {total_ms} ms.", state="complete"
+            label=f"Process complete — total time {total_ms} ms.",
+            state="complete",
+            expanded=False,
         )
     except Exception as e:
         explanation_md = f"AI explanation error: {e}"
