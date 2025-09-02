@@ -1,0 +1,24 @@
+[project]
+name = "usdai-agent"
+version = "0.1.0"
+description = ""
+authors = [
+    { name = "Jeremy Di Dio", email = "65977803+dioday45@users.noreply.github.com" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit (>=1.49.1,<2.0.0)",
+    "openai (>=1.102.0,<2.0.0)",
+    "polars (>=1.33.0,<2.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "watchdog (>=6.0.0,<7.0.0)",
+]
+
+[tool.poetry]
+packages = [{ include = "usdai_agent", from = "src" }]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
