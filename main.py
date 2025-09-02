@@ -263,13 +263,6 @@ if submitted:
     st.session_state["last_df"] = df
     st.session_state["last_latency_ms"] = dt_fetch_ms
 
-    try:
-        st.toast(
-            f"Retrieved {getattr(df, 'shape', [0])[0]:,} rows successfully.", icon="✅"
-        )
-    except Exception:
-        pass
-
 # ---------- Results (if any) ----------
 if "last_params" in st.session_state and "last_df" in st.session_state:
     params = st.session_state["last_params"]
