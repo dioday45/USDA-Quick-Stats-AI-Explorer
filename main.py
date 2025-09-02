@@ -4,7 +4,7 @@ import time
 import streamlit as st
 from src.usdai_agent.usda_client import USDAClient
 from usdai_agent.param_agent import ParamAgent
-from src.usdai_agent.answer_agent import AnswerAgent  # add this near the top
+from src.usdai_agent.answer_agent import AnswerAgent
 
 PREFERRED = [
     "commodity_desc",
@@ -27,16 +27,6 @@ PREFERRED = [
     "value",
 ]
 
-# Example questions (quick start)
-EXAMPLE_QUESTIONS = [
-    "Corn yield in Iowa for 2023",
-    "Monthly US wheat prices received 2019",
-    "Soybean production by state in 2021",
-    "Kansas winter wheat area harvested 2020",
-    "US corn yield 2012",
-]
-
-# ---------- Output sanitizer (post-agent) ----------
 STATE_NAME_TO_ALPHA = {
     "ALABAMA": "AL",
     "ALASKA": "AK",
@@ -129,8 +119,8 @@ st.markdown(
     "3. The app **retrieves** the data directly from the USDA Quick Stats API.  \n"
     "4. The **Answer Agent** analyzes the dataset and returns a clear explanation, along with the raw data and parameters for full transparency."
 )
-
 st.divider()
+
 # ---------- Sidebar config ----------
 st.sidebar.header("Configuration")
 usda_key = st.secrets.get("USDA_API_KEY", "")
@@ -147,7 +137,7 @@ temperature = st.sidebar.slider(
     "Model temperature", min_value=0.0, max_value=1.0, value=0.1
 )
 
-
+# ---------- Query form ----------
 with st.form("query_form", clear_on_submit=False):
     question = st.text_input(
         "Enter your question",

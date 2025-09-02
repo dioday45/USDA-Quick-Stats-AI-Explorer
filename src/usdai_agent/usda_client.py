@@ -1,4 +1,3 @@
-from curses import meta
 import httpx
 from typing import Any, Dict, Tuple
 import pandas as pd
@@ -37,7 +36,7 @@ class USDAClient:
                     params={
                         "key": self.api_key,
                         **DEFAULT_EXAMPLE_PARAMS,
-                    },  # Small query to check
+                    },  # Small query to check connection
                 )
                 resp.raise_for_status()
                 return True
@@ -45,9 +44,7 @@ class USDAClient:
             print(f"Error connecting to USDA API: {e}")
             return False
 
-    def fetch(
-        self, params: Dict[str, Any] = DEFAULT_EXAMPLE_PARAMS
-    ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
+    def fetch(self, params: Dict[str, Any]) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         """Fetch data from the USDA Quick Stats API.
 
         Args:

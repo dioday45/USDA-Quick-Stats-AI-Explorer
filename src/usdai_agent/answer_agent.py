@@ -3,11 +3,7 @@ import json
 from typing import Any, Dict
 
 import pandas as pd
-
-try:
-    from openai import OpenAI  # OpenAI SDK v1
-except Exception:  # pragma: no cover
-    OpenAI = None  # type: ignore
+from openai import OpenAI
 
 
 class AnswerAgent:

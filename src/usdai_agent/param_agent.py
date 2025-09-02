@@ -3,7 +3,6 @@ import json
 import re
 from typing import Dict, Any, List, Optional
 
-# OpenAI SDK v1.x
 from openai import OpenAI
 
 ALLOWED_PARAMS: List[str] = [
@@ -226,7 +225,6 @@ def _sanitize_params(d: Dict[str, Any]) -> Dict[str, Any]:
             if vals:
                 clean[k] = vals if len(vals) > 1 else vals[0]
             continue
-        # scalar-ish fields
         nv = norm_value(k, v)
         if nv is not None:
             clean[k] = nv
@@ -271,8 +269,6 @@ class ParamAgent:
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": user_prompt},
                 ],
-                # If your model supports it, uncomment to force JSON:
-                # response_format={"type": "json_object"},
                 timeout=self.timeout,
             )
             content = resp.choices[0].message.content or ""
