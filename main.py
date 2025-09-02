@@ -156,7 +156,7 @@ temperature = st.sidebar.slider(
 with st.form("query_form", clear_on_submit=False):
     question = st.text_input(
         "Enter your question",
-        value="What is the Corn yield in Iowa for 2023?",
+        value="What was the final and forecasted Corn yield in Iowa in 2023 ?",
         key="question",
     )
     submitted = st.form_submit_button("Submit", type="primary")
