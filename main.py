@@ -27,6 +27,14 @@ PREFERRED = [
     "value",
 ]
 
+# Example questions for sidebar
+EXAMPLE_QUESTIONS = [
+    "What was the Corn yield in Iowa for 2023?",
+    "What was the Wheat production in the US for 2020?",
+    "What was the Soybean area planted in Illinois for 2021?",
+    "What was the Oats yield in Minnesota for 2019?",
+]
+
 STATE_NAME_TO_ALPHA = {
     "ALABAMA": "AL",
     "ALASKA": "AK",
@@ -114,10 +122,10 @@ st.write(
 
 st.markdown("### How it works")
 st.markdown(
-    "1. **Ask** a question in plain English.  \n"
+    "1. **Ask** a question in plain English or **pick** an example from the sidebar.  \n"
     "2. The **AI Agent** interprets it and builds a validated JSON query.  \n"
     "3. The app **retrieves** the data directly from the USDA Quick Stats API.  \n"
-    "4. The **Answer Agent** analyzes the dataset and returns a clear explanation, along with the raw data and parameters for full transparency."
+    "4. The **AI Agent** then analyzes the dataset and returns a clear explanation, along with the raw data and generated parameters for full transparency."
 )
 st.divider()
 
@@ -136,6 +144,15 @@ model = st.sidebar.selectbox("OpenAI model", options=["gpt-4o-mini", "gpt-4o"])
 temperature = st.sidebar.slider(
     "Model temperature", min_value=0.0, max_value=1.0, value=0.1
 )
+
+# Sample questions block
+st.sidebar.subheader("Sample questions")
+st.sidebar.caption(
+    "Pick an example to auto-fill the question. You can edit it before submitting."
+)
+_example_choice = st.sidebar.selectbox("Pick an example", EXAMPLE_QUESTIONS, index=0)
+if st.sidebar.button("Insert example"):
+    st.session_state["question"] = _example_choice
 
 # ---------- Query form ----------
 with st.form("query_form", clear_on_submit=False):

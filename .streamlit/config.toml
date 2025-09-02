@@ -13,7 +13,7 @@ codeFont = "ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,m
 codeBackgroundColor = "#f9f9f9"
 buttonRadius = "full"
 headingFontSizes = ["36px", "24px", "20px"]
-headingFontWeights = ["700", "600", "600"]
+headingFontWeights = [700, 600, 600]
 
 
 [theme.sidebar]
